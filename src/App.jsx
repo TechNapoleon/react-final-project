@@ -4,6 +4,7 @@ import GroupTabs from './components/GroupTabs'
 import Footer from './components/Footer'
 import ThemeToggle from './components/ThemeToggle'
 import BackgroundLayer from './components/BackgroundLayer'
+import DigitalHelper from './components/DigitalHelper'
 
 const getInitialTasks = () => {
   try {
@@ -45,6 +46,12 @@ function App() {
   const [filter, setFilter] = useState('all') // 'all', 'active', 'completed'
   const [theme, setTheme] = useState(getInitialTheme)
   const [activeGroupId, setActiveGroupId] = useState('')
+  const [helperMood, setHelperMood] = useState('idle')
+
+  const triggerMood = (mood) => {
+    setHelperMood(mood)
+    setTimeout(() => setHelperMood('idle'), 3000)
+  }
 
   // Set initial active group
   useEffect(() => {
@@ -75,6 +82,7 @@ function App() {
   }
 
   const addTask = (text, groupId) => {
+    triggerMood('success')
     const newTask = {
       id: crypto.randomUUID(),
       text,
@@ -119,12 +127,17 @@ function App() {
   }
 
   const toggleTask = (id) => {
-    setTasks(prev => prev.map(t =>
-      t.id === id ? { ...t, isCompleted: !t.isCompleted } : t
-    ))
+    setTasks(prev => prev.map(t => {
+      if (t.id === id) {
+        if (!t.isCompleted) triggerMood('celebrate')
+        return { ...t, isCompleted: !t.isCompleted }
+      }
+      return t
+    }))
   }
 
   const deleteTask = (id) => {
+    triggerMood('delete')
     setTasks(prev => prev.filter(t => t.id !== id))
   }
 
@@ -214,6 +227,7 @@ function App() {
 
         <div className="h-2 bg-gradient-to-r from-blue-500 to-indigo-600"></div>
       </div>
+      <DigitalHelper mood={helperMood} />
     </div>
   )
 }
