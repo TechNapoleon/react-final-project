@@ -7,14 +7,15 @@ This document outlines the specifications for a React-based Task Manager applica
 - Build a functional task management application.
 - Use **React 19** with **Vite**.
 - Implement styling with **Tailwind CSS**.
-- Ensure state persistence using **LocalStorage**.
+- Implement state persistence using **LocalStorage**.
 - Strict adherence to no external state management libraries (no Redux/Zustand).
+- **New Features**: Dark/Light mode, Task Groups, Bulk Delete.
 
 ## 3. Technology Stack
 - **Framework**: React 19 (via Vite)
-- **Styling**: Tailwind CSS
+- **Styling**: Tailwind CSS (with Dark Mode support)
 - **Language**: JavaScript
-- **State Management**: React Hooks (`useState`, `useEffect` only)
+- **State Management**: React Hooks (`useState`, `useEffect`)
 - **Persistence**: Browser LocalStorage
 
 ## 4. Component Architecture
@@ -22,29 +23,38 @@ The application will consist of at least the following components:
 
 1.  **`App`**
     - Main container.
-    - Holds the `tasks` state and `filter` state.
-    - Contains handler functions (`addTask`, `toggleTask`, `deleteTask`, `editTask`, `setFilter`).
-    - Manages persistence (reading/writing to LocalStorage).
+    - Holds the `tasks` and `groups` state.
+    - Manages theme (Dark/Light).
+    - **Manages Active Group State**.
 
-2.  **`TaskInput`**
+2.  **`GroupTabs`** (New)
+    - Horizontal navigation components for Groups.
+    - "Add Group" functionality embedded.
+    - Highlights active group.
+
+3.  **`TaskInput`**
     - A controlled form component to add new tasks.
     - Props: `onAddTask` (function).
 
-3.  **`TaskList`**
+4.  **`TaskList`**
     - Renders the list of tasks based on the current filter.
     - Props: `tasks` (array), `onToggle`, `onDelete`, `onEdit`.
 
-4.  **`TaskItem`**
+5.  **`TaskItem`**
     - Represents an individual task.
     - Displays text and checkbox.
     - Handles "Edit Mode" local state to allow text modification.
     - Props: `task` (object), `onToggle`, `onDelete`, `onEdit`.
 
-5.  **`Footer` (Stats/Controls)**
+6.  **`Footer` (Stats/Controls)**
     - Displays the count of **active** tasks.
     - Contains filter buttons (All, Active, Completed).
+    - Contains "Delete All Completed" button.
     - Highlights the currently active filter.
-    - Props: `activeCount` (number), `currentFilter` (string), `onSetFilter` (function).
+    - Props: `activeCount` (number), `currentFilter` (string), `onSetFilter` (function), `onClearCompleted`.
+
+7.  **`ThemeToggle`** (New)
+    - Toggles between Light and Dark modes.
 
 ## 5. Data Structures
 
@@ -54,6 +64,12 @@ interface Task {
   id: string;        // UUID or Date.now()
   text: string;      // Content of the task
   isCompleted: boolean; // Status
+  groupId: string;   // ID of the group it belongs to
+}
+
+interface Group {
+  id: string;
+  name: string;
 }
 ```
 

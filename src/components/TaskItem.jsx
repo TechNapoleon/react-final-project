@@ -29,13 +29,13 @@ export default function TaskItem({ task, onToggle, onDelete, onEdit }) {
     }
 
     return (
-        <div className={`flex items-center justify-between p-4 bg-white border border-gray-200 rounded-lg shadow-sm hover:shadow-md transition-all group ${task.isCompleted ? 'bg-gray-50' : ''}`}>
+        <div className={`flex items-center justify-between p-4 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-sm hover:shadow-md transition-all group ${task.isCompleted ? 'bg-gray-50 dark:bg-gray-800/60' : ''}`}>
             <div className="flex items-center gap-3 flex-1 min-w-0">
                 <input
                     type="checkbox"
                     checked={task.isCompleted}
                     onChange={() => onToggle(task.id)}
-                    className="w-5 h-5 text-blue-600 border-gray-300 rounded focus:ring-blue-500 cursor-pointer accent-blue-600"
+                    className="w-5 h-5 text-blue-600 border-gray-300 dark:border-gray-600 rounded focus:ring-blue-500 cursor-pointer accent-blue-600"
                 />
 
                 {isEditing ? (
@@ -46,12 +46,12 @@ export default function TaskItem({ task, onToggle, onDelete, onEdit }) {
                             value={editText}
                             onChange={(e) => setEditText(e.target.value)}
                             onBlur={handleBlur}
-                            className="w-full px-2 py-1 text-gray-900 border border-blue-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            className="w-full px-2 py-1 text-gray-900 dark:text-gray-100 bg-white dark:bg-gray-700 border border-blue-300 dark:border-blue-500 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
                         />
                     </form>
                 ) : (
                     <span
-                        className={`truncate flex-1 cursor-pointer select-none text-lg ${task.isCompleted ? 'line-through text-gray-400' : 'text-gray-700'}`}
+                        className={`truncate flex-1 cursor-pointer select-none text-lg ${task.isCompleted ? 'line-through text-gray-400 dark:text-gray-500' : 'text-gray-700 dark:text-gray-200'}`}
                         onResize={() => { }} // dummy prop to satisfy linter if needed, but not needed
                         onDoubleClick={() => setIsEditing(true)}
                     >
