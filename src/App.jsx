@@ -3,6 +3,7 @@ import TaskGroup from './components/TaskGroup'
 import GroupTabs from './components/GroupTabs'
 import Footer from './components/Footer'
 import ThemeToggle from './components/ThemeToggle'
+import BackgroundLayer from './components/BackgroundLayer'
 
 const getInitialTasks = () => {
   try {
@@ -158,7 +159,8 @@ function App() {
   const activeCount = currentGroupTasks.filter(t => !t.isCompleted).length
 
   return (
-    <div className="min-h-screen bg-gray-100 dark:bg-gray-900 flex items-start justify-center py-12 px-4 sm:px-6 lg:px-8 font-sans transition-colors duration-300">
+    <div className="min-h-screen flex items-start justify-center py-12 px-4 sm:px-6 lg:px-8 font-sans transition-colors duration-300 relative z-0">
+      <BackgroundLayer />
       <div className="max-w-xl w-full bg-white dark:bg-gray-800 rounded-xl shadow-xl overflow-hidden transition-colors duration-300 flex flex-col min-h-[500px]">
         <div className="p-8 flex-1 flex flex-col">
           <div className="mb-6 flex items-center justify-between">
